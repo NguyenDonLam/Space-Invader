@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Bomb extends Actor
 {
+  private SpaceInvader spaceInvader;
   public Bomb()
   {
     super("sprites/bomb.gif");
@@ -35,4 +36,6 @@ public class Bomb extends Actor
     if (getLocation().y < 5)
       removeSelf();
   }
+
+  public void hit(){}
 }

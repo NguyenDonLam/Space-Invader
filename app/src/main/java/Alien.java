@@ -90,6 +90,9 @@ public class Alien extends Actor
   }
 
  
-
+  public void setSpeed(int nbShots){}
+  // Return remaining hp
+  public int gotHit() {return 1;}
+  public void setHP(int hp){}
 
 }

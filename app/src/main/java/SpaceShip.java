@@ -111,4 +111,7 @@ public class SpaceShip extends Actor implements GGKeyListener
   public boolean keyReleased(KeyEvent keyEvent) {
     return false;
   }
+
+  public void action(){}
+  public void shoot(){}
 }

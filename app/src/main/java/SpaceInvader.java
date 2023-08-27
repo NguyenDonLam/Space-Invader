@@ -164,6 +164,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
       logResult.append("Aliens start moving fast");
   }
 
+  // Change the way this work based on our discussion, keep the logResult part
   public void notifyAlienHit(List<Actor> actors) {
     for (Actor actor: actors) {
       Alien alien = (Alien)actor;
@@ -193,5 +194,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     return false;
   }
 
+  // Use the location to spawn a bomb
+  public void spawnBomb(Location location){}
 
 }

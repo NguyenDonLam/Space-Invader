@@ -9,6 +9,7 @@ public class Alien extends Actor
 {
   private final int maxNbSteps = 16;
   private int nbSteps;
+  private int healthPoints = 1;
   private boolean isMoving = true;
   private boolean isAutoTesting;
   private List<String> movements;
@@ -89,10 +90,35 @@ public class Alien extends Actor
       removeSelf();
   }
 
- 
-  public void setSpeed(int nbShots){}
-  // Return remaining hp
-  public int gotHit() {return 1;}
-  public void setHP(int hp){}
+  // Function to check if n is between a range of numbers
+  private static boolean isBetween(int n, int lower, int upper) {
+    return lower <= n && n <= upper;
+  }
+
+  // Function to take the number of shots and increase the alien's speed accordingly
+  public void setSpeed(int nbShots){
+    if (nbShots < 10) {
+      this.nbSteps = nbSteps;
+    } else if (isBetween(nbShots, 10, 49)) {
+      this.nbSteps = nbSteps * 2;
+    } else if (isBetween(nbShots, 50, 99)) {
+      this.nbSteps = nbSteps * 3;
+    } else if (isBetween(nbShots, 100, 499)) {
+      this.nbSteps = nbSteps * 4;
+    } else {
+      this.nbSteps = nbSteps * 5;
+    }
+
+  }
+  // Return remaining hp after getting hit
+  public int gotHit() {
+    healthPoints -= 1;
+    return healthPoints;
+  }
+
+  // Set the current HP of the alien
+  public void setHP(int hp){
+    this.healthPoints = hp;
+  }
 
 }

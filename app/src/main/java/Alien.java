@@ -9,6 +9,7 @@ public class Alien extends Actor
 {
   private final int maxNbSteps = 16;
   private int nbSteps;
+  private int stepSize = 1;
   private int healthPoints = 1;
   private boolean isMoving = true;
   private boolean isAutoTesting;
@@ -98,21 +99,21 @@ public class Alien extends Actor
   // Function to take the number of shots and increase the alien's speed accordingly
   public void setSpeed(int nbShots){
     if (nbShots < 10) {
-      this.nbSteps = nbSteps;
+      this.stepSize = 1;
     } else if (isBetween(nbShots, 10, 49)) {
-      this.nbSteps = nbSteps * 2;
+      this.stepSize = 2;
     } else if (isBetween(nbShots, 50, 99)) {
-      this.nbSteps = nbSteps * 3;
+      this.stepSize = 3;
     } else if (isBetween(nbShots, 100, 499)) {
-      this.nbSteps = nbSteps * 4;
+      this.stepSize = 4;
     } else {
-      this.nbSteps = nbSteps * 5;
+      this.stepSize = 5;
     }
 
   }
   // Return remaining hp after getting hit
   public int gotHit() {
-    healthPoints -= 1;
+    healthPoints--;
     return healthPoints;
   }
 

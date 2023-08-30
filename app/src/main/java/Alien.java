@@ -19,9 +19,25 @@ public class Alien extends Actor
   private int rowIndex;
   private int colIndex;
 
-  public Alien(String imageName, int rowIndex, int colIndex)
+  public Alien(int rowIndex, int colIndex)
   {
-    super(imageName);
+    super("sprites/alien.gif");
+    setSlowDown(7);
+    this.rowIndex = rowIndex;
+    this.colIndex = colIndex;
+  }
+
+  /**
+   * An extra constructor for it's subclasses to use.
+   * @param fileName: file path to the image of the Invulnerable Alien.
+   * @param rowIndex: the row in which the alien will situate on.
+   * @param colIndex: the column in which the alien will situate on.
+   *
+   * @Author DonLam
+   */
+  public Alien(String fileName, int rowIndex, int colIndex)
+  {
+    super(fileName);
     setSlowDown(7);
     this.rowIndex = rowIndex;
     this.colIndex = colIndex;
@@ -83,7 +99,6 @@ public class Alien extends Actor
       move();
       turn(angle);
     }
-    HealthPointsHandler();
     if (getLocation().y > 90)
       removeSelf();
   }
@@ -108,29 +123,24 @@ public class Alien extends Actor
     }
 
   }
-  // Return remaining hp after getting hit
-  public int gotHit() {
+
+  /**
+   * Processes when the alien got hit
+   * @return whether it has been hit or not.
+   * @Author DonLam, AndreChiang
+   */
+  public boolean gotHit() {
     healthPoints--;
-    return healthPoints;
+    if (healthPoints == 0) {
+      Explosion explosion = new Explosion();
+      gameGrid.addActor(explosion, getLocation());
+      gameGrid.removeActorsAt(getLocation(), Alien.class);
+    }
+    return true;
   }
 
   // Set the current HP of the alien
   public void setHP(int hp){
     this.healthPoints = hp;
   }
-
-  /**
-   * Handles when the Alien is supposed to explode
-   *
-   * @author Nguyen Don Lam
-   */
-  public void HealthPointsHandler() {
-    System.out.println(healthPoints);
-    if (healthPoints == 0) {
-      Explosion explosion = new Explosion();
-      gameGrid.addActor(explosion, getLocation());
-      gameGrid.removeActorsAt(getLocation(), Alien.class);
-    }
-  }
-
 }

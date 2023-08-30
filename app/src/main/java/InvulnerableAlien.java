@@ -2,7 +2,7 @@
  * This class represents an Invulnerable Alien in the game, in which it
  * swaps from an invulnerable state to normal from time to time.
  *
- * @author Nguyen Don Lam
+ * @author DonLam
  * @version 1.0
  */
 public class InvulnerableAlien extends Alien {
@@ -11,13 +11,12 @@ public class InvulnerableAlien extends Alien {
 
     /**
      *
-     * @param imageName: file path to the image of the Invulnerable Alien
      * @param rowIndex: the row in which the alien will situate on
      * @param colIndex: the column in which the alien will situate on
      */
-    public InvulnerableAlien(String imageName, int rowIndex, int colIndex)
+    public InvulnerableAlien(int rowIndex, int colIndex)
     {
-        super(imageName, rowIndex, colIndex);
+        super("sprites/invulnerable_alien.gif", rowIndex, colIndex);
     }
     public void act() {
         super.act();
@@ -30,10 +29,14 @@ public class InvulnerableAlien extends Alien {
      */
     private void InvulnerabilityHandler() {
         invulnerabilityTracker++;
-        if (invulnerabilityTracker % 10 == 0) {
+        if (invulnerabilityTracker % 4 == 0) {
             swapState();
             invulnerabilityTracker = 0;
         }
+        if (isInvulnerable) {
+            System.out.println("isInvulnerable");
+        }
+        System.out.println(invulnerabilityTracker);
     }
 
     /**
@@ -49,10 +52,13 @@ public class InvulnerableAlien extends Alien {
     /**
      * Manages the Alien when it collides with a bomb.
      *
-     * @return the amount of healthPoints the alien got left.
+     * @return whether the Alien got hit or not.
      */
     @Override
-    public int gotHit() {
-        return super.gotHit();
+    public boolean gotHit() {
+        if (isInvulnerable)
+            return false;
+         else
+            return super.gotHit();
     }
 }

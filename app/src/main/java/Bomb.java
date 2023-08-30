@@ -23,15 +23,15 @@ public class Bomb extends Actor
     // Acts independently searching a possible target and bring it to explosion
     move();
     CollisionHandler();
-    //if (getLocation().y < 5)
-      //removeSelf();
+    if (gameGrid != null && getLocation().y < 5)
+      removeSelf();
   }
 
   /**
    * Handles when bomb collides with Aliens, or any other entities
    * it is supposed to check for
    *
-   * @Author Nguyen Don Lam
+   * @Author DonLam, JimYang
    */
   public void CollisionHandler() {
     SpaceInvader spaceInvader = (SpaceInvader) gameGrid;
@@ -40,7 +40,6 @@ public class Bomb extends Actor
     {
       spaceInvader.notifyAlienHit(actors);
       removeSelf();
-      return;
     }
   }
 }

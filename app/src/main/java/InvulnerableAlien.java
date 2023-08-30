@@ -6,17 +6,17 @@
  * @version 1.0
  */
 public class InvulnerableAlien extends Alien {
+    private static final String SPRITE_FILE = "sprites/multiple_alien.gif";
     private boolean isInvulnerable = false;        // Current invulnerability state
     private int invulnerabilityTracker = 0;        // A counter to the next state change
 
     /**
-     *
-     * @param rowIndex: the row in which the alien will situate on
-     * @param colIndex: the column in which the alien will situate on
+     * @param rowIndex: the row in which the alien will situate on.
+     * @param colIndex: the column in which the alien will situate on.
      */
     public InvulnerableAlien(int rowIndex, int colIndex)
     {
-        super("sprites/invulnerable_alien.gif", rowIndex, colIndex);
+        super(SPRITE_FILE, rowIndex, colIndex);
     }
     public void act() {
         super.act();
@@ -33,10 +33,6 @@ public class InvulnerableAlien extends Alien {
             swapState();
             invulnerabilityTracker = 0;
         }
-        if (isInvulnerable) {
-            System.out.println("isInvulnerable");
-        }
-        System.out.println(invulnerabilityTracker);
     }
 
     /**

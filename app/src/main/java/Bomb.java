@@ -31,7 +31,7 @@ public class Bomb extends Actor
    * Handles when bomb collides with Aliens, or any other entities
    * it is supposed to check for
    *
-   * @Author DonLam, JimYang
+   * @author DonLam, JimYang
    */
   public void CollisionHandler() {
     SpaceInvader spaceInvader = (SpaceInvader) gameGrid;

@@ -6,11 +6,15 @@
  * @version 1.0
  */
 public class PowerfulAlien extends Alien {
+    private static final String SPRITE_FILE = "sprites/multiple_alien.gif";
+    /**
+     * @param rowIndex: the row in which the alien will situate on
+     * @param colIndex: the column in which the alien will situate on
+     */
     public PowerfulAlien(int rowIndex, int colIndex)
     {
-        super("sprites/powerful_alien.gif", rowIndex, colIndex);
+        super(SPRITE_FILE, rowIndex, colIndex);
         healthPoints = 5;
-        System.out.println("HELLO");
     }
 
     public void act() {

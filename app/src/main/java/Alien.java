@@ -9,8 +9,8 @@ public class Alien extends Actor
 {
   private final int maxNbSteps = 16;
   private int nbSteps;
-  protected int stepSize = 1;
-  protected int healthPoints = 1;
+  private int stepSize = 1;
+  protected int healthPoints = 1; // NDL changed visibility from private to protected
   private boolean isMoving = true;
   private boolean isAutoTesting;
   private List<String> movements;
@@ -28,12 +28,12 @@ public class Alien extends Actor
   }
 
   /**
-   * An extra constructor for it's subclasses to use.
+   * An extra constructor for its subclasses to use.
    * @param fileName: file path to the image of the Invulnerable Alien.
    * @param rowIndex: the row in which the alien will situate on.
    * @param colIndex: the column in which the alien will situate on.
    *
-   * @Author DonLam
+   * @author DonLam
    */
   public Alien(String fileName, int rowIndex, int colIndex)
   {
@@ -127,7 +127,7 @@ public class Alien extends Actor
   /**
    * Processes when the alien got hit
    * @return whether it has been hit or not.
-   * @Author DonLam, AndreChiang
+   * @author DonLam, AndreChiang
    */
   public boolean gotHit() {
     healthPoints--;

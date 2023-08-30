@@ -10,7 +10,7 @@ public class Alien extends Actor
   private final int maxNbSteps = 16;
   private int nbSteps;
   private int stepSize = 1;
-  private int healthPoints = 1;
+  protected int healthPoints = 1;
   private boolean isMoving = true;
   private boolean isAutoTesting;
   private List<String> movements;

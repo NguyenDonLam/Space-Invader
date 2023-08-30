@@ -3,7 +3,6 @@ import java.util.Properties;
 
 public class AlienCreator {
 
-    // TODO: use singleton pattern and finish the createAlien function
     private static AlienCreator instance;
     private AlienCreator() {}
     public static AlienCreator getInstance() {

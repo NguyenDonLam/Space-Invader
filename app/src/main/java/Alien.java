@@ -83,6 +83,7 @@ public class Alien extends Actor
       move();
       turn(angle);
     }
+    HealthPointsHandler();
     if (getLocation().y > 90)
       removeSelf();
   }
@@ -116,6 +117,20 @@ public class Alien extends Actor
   // Set the current HP of the alien
   public void setHP(int hp){
     this.healthPoints = hp;
+  }
+
+  /**
+   * Handles when the Alien is supposed to explode
+   *
+   * @author Nguyen Don Lam
+   */
+  public void HealthPointsHandler() {
+    System.out.println(healthPoints);
+    if (healthPoints == 0) {
+      Explosion explosion = new Explosion();
+      gameGrid.addActor(explosion, getLocation());
+      gameGrid.removeActorsAt(getLocation(), Alien.class);
+    }
   }
 
 }

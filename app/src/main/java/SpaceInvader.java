@@ -108,7 +108,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     addKeyListener(ss);
   }
 
-
   public String runApp(boolean isDisplayingUI) {
     setSimulationPeriod(Integer.parseInt(properties.getProperty("simulationPeriod")));
     nbRows = Integer.parseInt(properties.getProperty("rows"));
@@ -168,7 +167,9 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   // Change the way this work based on our discussion, keep the logResult part
   public void notifyAlienHit(List<Actor> actors) {
     for (Actor actor: actors) {
+      System.out.println("HELLO");
       Alien alien = (Alien)actor;
+      alien.gotHit();
       String alienData = String.format("%s@%d-%d",
               alien.getClass(), alien.getRowIndex(), alien.getColIndex());
       logResult.append("An alien has been hit.");

@@ -10,6 +10,7 @@ public class PowerfulAlien extends Alien {
     {
         super(imageName, rowIndex, colIndex);
         healthPoints = 5;
+        System.out.println("HELLO");
     }
 
     public void act() {

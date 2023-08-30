@@ -73,19 +73,20 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     alienGrid = new Alien[nbRows][nbCols];
     for (int i = 0; i < nbRows; i++) {
       for (int k = 0; k < nbCols; k++) {
+        Alien alien;
         String imageName = "sprites/alien.gif";
-        String type = "alien";
         if (arrayContains(powerfulAlienLocations, i, k)) {
           imageName = "sprites/powerful_alien.gif";
-          type = "powerful";
+          alien = new PowerfulAlien(imageName, i, k);
         } else if (arrayContains(invulnerableAlienLocations, i, k)) {
           imageName = "sprites/invulnerable_alien.gif";
-          type = "invulnerable";
+          alien = new InvulnerableAlien(imageName, i, k);
         } else if (arrayContains(multipleAlienLocations, i, k)) {
           imageName = "sprites/multiple_alien.gif";
-          type = "multiple";
+          alien = new PowerfulAlien(imageName, i, k);
+        } else {
+          alien = new Alien(imageName, i, k);
         }
-        Alien alien = new Alien(imageName, type, i, k);
         addActor(alien, new Location(100 - 5 * nbCols + 10 * k, 10 + 10 * i));
         alien.setTestingConditions(isAutoTesting, movements);
         alienGrid[i][k] = alien;
@@ -152,7 +153,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
         if (!alienData.isRemoved()) {
           gridLocation = alienData.getX() + "-" + alienData.getY();
         }
-        String alienDataString = String.format("%s@%d-%d@%s@%s#", alienData.getType(),
+        String alienDataString = String.format("%s@%d-%d@%s@%s#", alienData.getClass(),
                 alienData.getRowIndex(), alienData.getColIndex(), isDeadStatus, gridLocation);
         logResult.append(alienDataString);
       }
@@ -169,7 +170,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     for (Actor actor: actors) {
       Alien alien = (Alien)actor;
       String alienData = String.format("%s@%d-%d",
-              alien.getType(), alien.getRowIndex(), alien.getColIndex());
+              alien.getClass(), alien.getRowIndex(), alien.getColIndex());
       logResult.append("An alien has been hit.");
       logResult.append(alienData + "\n");
     }

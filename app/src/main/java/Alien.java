@@ -9,7 +9,7 @@ public class Alien extends Actor
 {
   private final int maxNbSteps = 16;
   private int nbSteps;
-  private int stepSize = 1;
+  protected int stepSize = 1;
   protected int healthPoints = 1;
   private boolean isMoving = true;
   private boolean isAutoTesting;
@@ -19,18 +19,14 @@ public class Alien extends Actor
   private int rowIndex;
   private int colIndex;
 
-  public Alien(String imageName, String type, int rowIndex, int colIndex)
+  public Alien(String imageName, int rowIndex, int colIndex)
   {
     super(imageName);
     setSlowDown(7);
-    this.type = type;
     this.rowIndex = rowIndex;
     this.colIndex = colIndex;
   }
 
-  public String getType() {
-    return type;
-  }
 
   public int getRowIndex() {
     return rowIndex;

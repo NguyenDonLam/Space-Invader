@@ -3,10 +3,10 @@
  * requires 5 shots from the player to explode.
  *
  * @author DonLam
- * @version 1.0
+ * @version Incomplete
  */
 public class PowerfulAlien extends Alien {
-    private static final String SPRITE_FILE = "sprites/multiple_alien.gif";
+    private static final String SPRITE_FILE = "sprites/powerful_alien.gif";
     /**
      * @param rowIndex: the row in which the alien will situate on
      * @param colIndex: the column in which the alien will situate on

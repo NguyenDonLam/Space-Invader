@@ -9,13 +9,12 @@ public class Alien extends Actor
 {
   private final int maxNbSteps = 16;
   private int nbSteps;
-  private int stepSize = 1;
+  private static int stepSize = 1;
   protected int healthPoints = 1; // NDL changed visibility from private to protected
   private boolean isMoving = true;
   private boolean isAutoTesting;
   private List<String> movements;
   private int movementIndex = 0;
-  private String type;
   private int rowIndex;
   private int colIndex;
 
@@ -111,7 +110,7 @@ public class Alien extends Actor
   }
 
   // Function to take the number of shots and increase the alien's speed accordingly
-  public boolean setSpeed(int nbShots){
+  public static boolean setSpeed(int nbShots){
     int newStepSize;
     if (nbShots < 10) {
       newStepSize = 1;
@@ -124,8 +123,8 @@ public class Alien extends Actor
     } else {
       newStepSize = 5;
     }
-    if (this.stepSize == newStepSize) return false;
-    this.stepSize = newStepSize;
+    if (stepSize == newStepSize) return false;
+    stepSize = newStepSize;
     return true;
   }
 
@@ -151,9 +150,13 @@ public class Alien extends Actor
   public String getType() {
     return "alien";
   }
-
-  // Set the current HP of the alien
-  public void setHP(int hp){
-    this.healthPoints = hp;
+  public void setStep(int newStep) {
+    nbSteps = newStep;
+  }
+  public int getStep() {
+    return nbSteps;
+  }
+  public int getStepSize() {
+    return stepSize;
   }
 }

@@ -3,7 +3,7 @@
  * requires 5 shots from the player to explode.
  *
  * @author DonLam
- * @version Incomplete
+ * @version 1.0
  */
 public class PowerfulAlien extends Alien {
     private static final String SPRITE_FILE = "sprites/powerful_alien.gif";

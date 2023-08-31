@@ -18,49 +18,15 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   private int nbRows = 3;
   private int nbCols = 11;
   private int nbShots = 0;
+  private boolean multiply = false;
   private boolean isGameOver = false;
   private boolean isAutoTesting = false;
   private Properties properties = null;
   private StringBuilder logResult = new StringBuilder();
-  private ArrayList<AlienGridLocation> powerfulAlienLocations = new ArrayList<AlienGridLocation>();
-  private ArrayList<AlienGridLocation> invulnerableAlienLocations = new ArrayList<AlienGridLocation>();
-  private ArrayList<AlienGridLocation> multipleAlienLocations = new ArrayList<AlienGridLocation>();
-  private Alien[][] alienGrid = null;
+  private ArrayList<Alien[]> alienGrid = null;
   public SpaceInvader(Properties properties) {
     super(200, 100, 5, false);
     this.properties = properties;
-  }
-
-  private ArrayList<AlienGridLocation> convertFromProperty(String propertyName) {
-    String powerfulAlienString = properties.getProperty(propertyName);
-    ArrayList<AlienGridLocation> alienLocations = new ArrayList<>();
-    if (powerfulAlienString != null) {
-      String [] locations = powerfulAlienString.split(";");
-      for (String location: locations) {
-        String [] locationPair = location.split("-");
-        int rowIndex = Integer.parseInt(locationPair[0]);
-        int colIndex = Integer.parseInt(locationPair[1]);
-        alienLocations.add(new AlienGridLocation(rowIndex, colIndex));
-      }
-    }
-
-    return alienLocations;
-  }
-
-  private void setupAlienLocations() {
-    powerfulAlienLocations = convertFromProperty("Powerful.locations");
-    invulnerableAlienLocations = convertFromProperty("Invulnerable.locations");
-    multipleAlienLocations = convertFromProperty("Multiple.locations");
-  }
-
-  private boolean arrayContains(ArrayList<AlienGridLocation>locations, int rowIndex, int colIndex) {
-    for (AlienGridLocation location : locations) {
-      if (location.rowIndex == rowIndex && location.colIndex == colIndex) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   /**
@@ -71,29 +37,19 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
    * @author DonLam
    */
   private void setupAliens() {
-    setupAlienLocations();
+    AlienCreator alienCreator = AlienCreator.getInstance();
     isAutoTesting = Boolean.parseBoolean(properties.getProperty("isAuto"));
     String aliensControl = properties.getProperty("aliens.control");
     List<String> movements = null;
+    alienGrid = alienCreator.createAliens(properties, nbRows, nbCols);
     if (aliensControl != null) {
       movements = Arrays.asList(aliensControl.split(";"));
     }
-    alienGrid = new Alien[nbRows][nbCols];
     for (int i = 0; i < nbRows; i++) {
       for (int k = 0; k < nbCols; k++) {
-        Alien alien;
-        if (arrayContains(powerfulAlienLocations, i, k)) {
-          alien = new PowerfulAlien(i, k);
-        } else if (arrayContains(invulnerableAlienLocations, i, k)) {
-          alien = new InvulnerableAlien(i, k);
-        } else if (arrayContains(multipleAlienLocations, i, k)) {
-          alien = new MultipleAlien(i, k);
-        } else {
-          alien = new Alien(i, k);
-        }
+        Alien alien = alienGrid.get(i)[k];
         addActor(alien, new Location(100 - 5 * nbCols + 10 * k, 10 + 10 * i));
         alien.setTestingConditions(isAutoTesting, movements);
-        alienGrid[i][k] = alien;
       }
     }
   }
@@ -136,9 +92,9 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     logResult.append("Alien locations: ");
     for (int i = 0; i < nbRows; i++) {
       for (int j = 0; j < nbCols; j++) {
-        Alien alienData = alienGrid[i][j];
+        Alien alienData = alienGrid.get(i)[j];
 
-        String isDeadStatus = alienData.isRemoved() ? "Dead" : "Alive";
+        String isDeadStatus;
         if (alienData.isRemoved()) {
           isDeadStatus = "Dead";
         } else {
@@ -156,14 +112,15 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     }
     logResult.append("\n");
     if (win) setIsGameOver(true, true, null);
+    updateAlienGrid();
+    if (haveTopSpace() && multiply) {
+      generateTopAlienRow();
+      multiply = false;
+    }
   }
 
   public void notifyAliensMoveFast() {
-    for (int i = 0; i < nbRows; i++) {
-      for (int j = 0; j < nbCols; j++) {
-        alienGrid[i][j].setSpeed(nbShots);
-      }
-    }
+    Alien.setSpeed(nbShots);
     logResult.append("Aliens start moving fast");
   }
 
@@ -254,4 +211,94 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     notifyAliensMoveFast();
   }
 
+  /**
+   * Checks whether there are space on the top-most area of the game
+   * @return whether the top area od the game is spawnable.
+   * @author DonLam, Jim
+   */
+  public boolean haveTopSpace() {
+    int minY = Integer.MAX_VALUE, cellSize = 0;
+    for (int i = 0; i < nbRows; i++) {
+      for (int j = 0; j < nbCols; j++) {
+        Alien alien = alienGrid.get(i)[j];
+        if (!alien.isRemoved()) minY = Math.min(alien.getY(), minY);
+      }
+    }
+    if (minY >= 15) return true;
+    return false;
+  }
+  public void generateTopAlienRow() {
+    Alien anchor = findTopLeftMostAlien();
+    Alien[] newAlienRow = new Alien[nbCols];
+    for (int c = 0; c < nbCols; c++) {
+      Location spawnPoint = new Location(anchor.getX() + (c - anchor.getColIndex()) * 10, anchor.getY() - 10);
+      Alien alien = new Alien(-1, c);
+      newAlienRow[c] = alien;
+      addActor(alien, spawnPoint);
+      alien.setStep(anchor.getStep());
+      alien.setDirection(anchor.getDirection());
+    }
+    alienGrid.add(0, newAlienRow);
+    System.out.println("++++++++++++++++++");
+    System.out.println("Anchor steps:" + anchor.getStep());
+    for(Alien [] aliens: alienGrid) {
+      for (Alien alien : aliens) {
+        System.out.println(alien.getStep());
+
+      }
+    }
+    System.out.println("++++++++++++++++++");
+  }
+
+  /**
+   * Find the top-left-most active alien still in the game
+   * @return the top-left-most active alien
+   *
+   * @author DonLam
+   */
+  public Alien findTopLeftMostAlien() {
+    for (int r = 0; r < alienGrid.size(); r++) {
+      for (int c = 0; c < nbCols; c++) {
+        if (!alienGrid.get(r)[c].isRemoved()) {
+          return alienGrid.get(r)[c];
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Remove top-most rows when all aliens are gone
+   *
+   * @author DonLam
+   */
+  public void updateAlienGrid() {
+    int row = 0;
+    while (allAliensGone(row) && row < alienGrid.size()){
+      alienGrid.remove(row);
+      row++;
+    }
+  }
+
+  /**
+   * Check if all aliens of a particular row is gone.
+   * @param row: the row to be checked at.
+   * @return whether the row still has active alien(s).
+   *
+   * @author DonLam
+   */
+  public boolean allAliensGone(int row) {
+    for (int i = 0; i < nbCols; i++) {
+      if(!alienGrid.get(row)[i].isRemoved()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public void setMultiply(boolean multiply) {
+    this.multiply = multiply;
+  }
+
+  public boolean getMultiply() {return multiply;}
 }

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.regex.*;
 
 public class AlienCreator {
 
@@ -12,7 +13,42 @@ public class AlienCreator {
         return instance;
     }
 
-    public ArrayList<Alien> createAliens(Properties properties, int nbRows, int nbCols){
-        return new ArrayList<Alien>();
+    /**
+     * Create the Aliens as specified in the provided properties
+     * @param properties: the property(HashMap) containing information of the level
+     * @param nbRows:
+     * @param nbCols:
+     * @return an 2D-Array of Aliens, created on all specified location
+     *
+     * @author DonLam, Chi-Yuan
+     */
+    public ArrayList<Alien[]> createAliens(Properties properties, int nbRows, int nbCols){
+        ArrayList<Alien[]> alienGrid = new ArrayList<Alien[]>();
+        String search = "(\\d+)-(\\d+)";
+        Pattern pattern = Pattern.compile(search);
+
+        for (int i = 0; i < nbRows; i++) {
+            alienGrid.add(new Alien[3]);
+            for (int j = 0; j < nbCols; j++) {
+                alienGrid.get(i)[j] = new Alien(i, j);
+            }
+        }
+        for (AlienType alienType : AlienType.values()) {
+            Matcher matcher = pattern.matcher(properties.getProperty(alienType.getPropertyName()));
+            while (matcher.find()) {
+                int rowIndex = Integer.parseInt(matcher.group(1));
+                int colIndex = Integer.parseInt(matcher.group(2));
+                if (alienType == AlienType.Powerful) {
+                    alienGrid.get(rowIndex)[colIndex] = new PowerfulAlien(rowIndex, colIndex);
+                } else if (alienType == AlienType.Invulnerable) {
+                    alienGrid.get(rowIndex)[colIndex] = new InvulnerableAlien(rowIndex, colIndex);
+                } else if (alienType == AlienType.Multiple) {
+                    alienGrid.get(rowIndex)[colIndex] = new MultipleAlien(rowIndex, colIndex);
+                }
+            }
+        }
+        return alienGrid;
     }
+
+
 }

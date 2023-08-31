@@ -62,6 +62,13 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     return false;
   }
 
+  /**
+   * Create and set up all aliens
+   *
+   * Modified to work with different alien classes instead of
+   * type strings by
+   * @author DonLam
+   */
   private void setupAliens() {
     setupAlienLocations();
     isAutoTesting = Boolean.parseBoolean(properties.getProperty("isAuto"));
@@ -161,6 +168,14 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   }
 
   // Change the way this work based on our discussion, keep the logResult part
+
+  /**
+   * Log the actors who will be notified of being hit
+   * @param actors: the list of actors to be notified.
+   *
+   * modified by calling gotHit() on all actors provided by
+   * @author DonLam
+   */
   public void notifyAlienHit(List<Actor> actors) {
     for (Actor actor: actors) {
       System.out.println("HELLO");

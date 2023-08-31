@@ -155,7 +155,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
         if (!alienData.isRemoved()) {
           gridLocation = alienData.getX() + "-" + alienData.getY();
         }
-        String alienDataString = String.format("%s@%d-%d@%s@%s#", alienData.getClass(),
+        String alienDataString = String.format("%s@%d-%d@%s@%s#", alienData.getType(),
                 alienData.getRowIndex(), alienData.getColIndex(), isDeadStatus, gridLocation);
         logResult.append(alienDataString);
       }
@@ -170,7 +170,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   // Change the way this work based on our discussion, keep the logResult part
 
   /**
-   * Log the actors who will be notified of being hit
+   * Log the actors who will be notified of being hit.
    * @param actors: the list of actors to be notified.
    *
    * modified by calling gotHit() on all actors provided by
@@ -182,7 +182,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
       Alien alien = (Alien)actor;
       alien.gotHit();
       String alienData = String.format("%s@%d-%d",
-              alien.getClass(), alien.getRowIndex(), alien.getColIndex());
+              alien.getType(), alien.getRowIndex(), alien.getColIndex());
       logResult.append("An alien has been hit.");
       logResult.append(alienData + "\n");
     }

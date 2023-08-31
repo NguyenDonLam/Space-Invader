@@ -13,4 +13,11 @@ public class MultipleAlien extends Alien {
     public MultipleAlien(int rowIndex, int colIndex) {
         super(SPRITE_FILE, rowIndex, colIndex);
     }
+    /**
+     * @return the type of the alien, to be used for Logging only
+     */
+    @Override
+    public String getType() {
+        return "multiple";
+    }
 }

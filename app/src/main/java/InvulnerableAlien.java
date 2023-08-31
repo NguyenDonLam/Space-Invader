@@ -57,4 +57,11 @@ public class InvulnerableAlien extends Alien {
          else
             return super.gotHit();
     }
+    /**
+     * @return the type of the alien, to be used for Logging only
+     */
+    @Override
+    public String getType() {
+        return "alien";
+    }
 }

@@ -20,5 +20,12 @@ public class PowerfulAlien extends Alien {
     public void act() {
         super.act();
     }
+    /**
+     * @return the type of the alien, to be used for Logging only
+     */
+    @Override
+    public String getType() {
+        return "powerful";
+    }
 
 }

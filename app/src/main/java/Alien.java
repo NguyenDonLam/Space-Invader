@@ -139,6 +139,14 @@ public class Alien extends Actor
     return true;
   }
 
+  /**
+   * @return the type of the alien, to be used for Logging only
+   * @author DonLam
+   */
+  public String getType() {
+    return "alien";
+  }
+
   // Set the current HP of the alien
   public void setHP(int hp){
     this.healthPoints = hp;

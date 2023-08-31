@@ -6,7 +6,7 @@
  * @version 1.0
  */
 public class InvulnerableAlien extends Alien {
-    private static final String SPRITE_FILE = "sprites/multiple_alien.gif";
+    private static final String SPRITE_FILE = "sprites/invulnerable_alien.gif";
     private boolean isInvulnerable = false;        // Current invulnerability state
     private int invulnerabilityTracker = 0;        // A counter to the next state change
 

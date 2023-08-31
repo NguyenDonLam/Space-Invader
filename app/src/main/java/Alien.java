@@ -82,25 +82,27 @@ public class Alien extends Actor
     if (!isMoving) {
       return;
     }
-    if (nbSteps < maxNbSteps)
-    {
-      move();
-      nbSteps++;
-    }
-    else
-    {
-      nbSteps = 0;
-      int angle;
-      if (getDirection() == 0)
-        angle = 90;
+    for (int i = 0; i < stepSize; i++) {
+      if (nbSteps < maxNbSteps)
+      {
+        move();
+        nbSteps++;
+      }
       else
-        angle = -90;
-      turn(angle);
-      move();
-      turn(angle);
+      {
+        nbSteps = 0;
+        int angle;
+        if (getDirection() == 0)
+          angle = 90;
+        else
+          angle = -90;
+        turn(angle);
+        move();
+        turn(angle);
+      }
+      if (getLocation().y > 90)
+        removeSelf();
     }
-    if (getLocation().y > 90)
-      removeSelf();
   }
 
   // Function to check if n is between a range of numbers
@@ -109,19 +111,22 @@ public class Alien extends Actor
   }
 
   // Function to take the number of shots and increase the alien's speed accordingly
-  public void setSpeed(int nbShots){
+  public boolean setSpeed(int nbShots){
+    int newStepSize;
     if (nbShots < 10) {
-      this.stepSize = 1;
+      newStepSize = 1;
     } else if (isBetween(nbShots, 10, 49)) {
-      this.stepSize = 2;
+      newStepSize = 2;
     } else if (isBetween(nbShots, 50, 99)) {
-      this.stepSize = 3;
+      newStepSize = 3;
     } else if (isBetween(nbShots, 100, 499)) {
-      this.stepSize = 4;
+      newStepSize = 4;
     } else {
-      this.stepSize = 5;
+      newStepSize = 5;
     }
-
+    if (this.stepSize == newStepSize) return false;
+    this.stepSize = newStepSize;
+    return true;
   }
 
   /**

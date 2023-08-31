@@ -3,11 +3,8 @@
 
 import ch.aplu.jgamegrid.*;
 
-import java.util.List;
-
 public class Bomb extends Actor
 {
-  private SpaceInvader spaceInvader;
   public Bomb()
   {
     super("sprites/bomb.gif");
@@ -20,26 +17,21 @@ public class Bomb extends Actor
 
   public void act()
   {
-    // Acts independently searching a possible target and bring it to explosion
+    // Continue moving until reaches the end of the game window
     move();
-    CollisionHandler();
-    if (gameGrid != null && getLocation().y < 5)
+    if (getLocation().y < 5)
       removeSelf();
   }
 
-  /**
-   * Handles when bomb collides with Aliens, or any other entities
-   * it is supposed to check for
-   *
-   * @author DonLam, JimYang
-   */
-  public void CollisionHandler() {
-    SpaceInvader spaceInvader = (SpaceInvader) gameGrid;
-    List<Actor> actors = gameGrid.getActorsAt(getLocation(), Alien.class);
-    if (actors.size() > 0)
-    {
-      spaceInvader.notifyAlienHit(actors);
-      removeSelf();
+  // Searching a possible target and notify spaceInvader if hit
+  @Override
+  public int collide(Actor actor1, Actor actor2) {
+    boolean hasHit = false;
+    if (actor1 instanceof Alien || actor2 instanceof Alien) {
+      SpaceInvader spaceInvader = (SpaceInvader) gameGrid;
+      hasHit = spaceInvader.notifyAlienHit(gameGrid.getActorsAt(getLocation(), Alien.class));
     }
+    if (hasHit) removeSelf();
+    return 0;
   }
 }

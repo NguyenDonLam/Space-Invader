@@ -17,6 +17,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
 {
   private int nbRows = 3;
   private int nbCols = 11;
+  private int nbShots = 0;
   private boolean isGameOver = false;
   private boolean isAutoTesting = false;
   private Properties properties = null;
@@ -97,20 +98,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     }
   }
 
-  private void setupSpaceShip() {
-    SpaceShip ss = new SpaceShip(this);
-    addActor(ss, new Location(100, 90));
-
-    String spaceShipControl = properties.getProperty("space_craft.control");
-    List<String> controls = null;
-    if (spaceShipControl != null) {
-      controls = Arrays.asList(spaceShipControl.split(";"));
-    }
-
-    ss.setTestingConditions(isAutoTesting, controls);
-    addKeyListener(ss);
-  }
-
   public String runApp(boolean isDisplayingUI) {
     setSimulationPeriod(Integer.parseInt(properties.getProperty("simulationPeriod")));
     nbRows = Integer.parseInt(properties.getProperty("rows"));
@@ -145,12 +132,19 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
 
   @Override
   public void act() {
+    boolean win = true;
     logResult.append("Alien locations: ");
     for (int i = 0; i < nbRows; i++) {
       for (int j = 0; j < nbCols; j++) {
         Alien alienData = alienGrid[i][j];
 
         String isDeadStatus = alienData.isRemoved() ? "Dead" : "Alive";
+        if (alienData.isRemoved()) {
+          isDeadStatus = "Dead";
+        } else {
+          isDeadStatus = "Alive";
+          win = false;
+        }
         String gridLocation = "0-0";
         if (!alienData.isRemoved()) {
           gridLocation = alienData.getX() + "-" + alienData.getY();
@@ -161,10 +155,16 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
       }
     }
     logResult.append("\n");
+    if (win) setIsGameOver(true, true, null);
   }
 
   public void notifyAliensMoveFast() {
-      logResult.append("Aliens start moving fast");
+    for (int i = 0; i < nbRows; i++) {
+      for (int j = 0; j < nbCols; j++) {
+        alienGrid[i][j].setSpeed(nbShots);
+      }
+    }
+    logResult.append("Aliens start moving fast");
   }
 
   // Change the way this work based on our discussion, keep the logResult part
@@ -176,20 +176,18 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
    * modified by calling gotHit() on all actors provided by
    * @author DonLam
    */
-  public void notifyAlienHit(List<Actor> actors) {
+  public boolean notifyAlienHit(List<Actor> actors) {
+    boolean hasHit = false;
     for (Actor actor: actors) {
       System.out.println("HELLO");
       Alien alien = (Alien)actor;
-      alien.gotHit();
+      hasHit = alien.gotHit();
       String alienData = String.format("%s@%d-%d",
               alien.getType(), alien.getRowIndex(), alien.getColIndex());
       logResult.append("An alien has been hit.");
       logResult.append(alienData + "\n");
     }
-  }
-
-  public void setIsGameOver(boolean isOver) {
-    isGameOver = isOver;
+    return hasHit;
   }
 
   public boolean keyPressed(KeyEvent evt)
@@ -207,9 +205,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     return false;
   }
 
-  // Use the location to spawn a bomb
-  public void spawnBomb(Location location){}
-
   /**
    * Create an explosion at the designated location
    * @param location: location for Explosion to be created at
@@ -218,6 +213,45 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   public void spawnExplosion(Location location) {
     Explosion explosion = new Explosion();
     addActor(explosion, location);
+  }
+
+  private void setupSpaceShip() {
+    // Create a Spaceship Controller to handle all the spaceship controls
+    SpaceShipController spaceShipController = new SpaceShipController(this);
+
+    // Retrieve auto testing controls
+    String spaceShipControl = properties.getProperty("space_craft.control");
+    List<String> controls = null;
+    if (spaceShipControl != null) {
+      controls = Arrays.asList(spaceShipControl.split(";"));
+    }
+
+    // Set auto testing options in spaceship controller
+    spaceShipController.setTestingConditions(isAutoTesting, controls);
+
+    // Allow spaceship controller to take input or run auto testing controls
+    addKeyListener(spaceShipController);
+    addActListener(spaceShipController);
+  }
+  public void setIsGameOver(boolean isGameOver, boolean win, Location location) {
+    this.isGameOver = isGameOver;
+    // Display win messages when the player wins otherwise show explosion
+    if (win) {
+      getBg().drawText("Number of shots: " + nbShots, new Point(10, 30));
+      getBg().drawText("Game constructed with JGameGrid (www.aplu.ch)", new Point(10, 50));
+      addActor(new Actor("sprites/you_win.gif"), new Location(100, 60));
+    } else {
+      removeAllActors();
+      addActor(new Actor("sprites/explosion2.gif"), location);
+    }
+  }
+  public void spawnBomb(Location location){
+    Bomb bomb = new Bomb();
+    bomb.addCollisionActors(getActors(Alien.class));
+    bomb.addActorCollisionListener(bomb);
+    addActor(bomb, location);
+    nbShots++;
+    notifyAliensMoveFast();
   }
 
 }

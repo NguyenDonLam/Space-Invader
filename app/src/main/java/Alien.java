@@ -131,10 +131,10 @@ public class Alien extends Actor
    */
   public boolean gotHit() {
     healthPoints--;
+    SpaceInvader game = (SpaceInvader)gameGrid;
     if (healthPoints == 0) {
-      Explosion explosion = new Explosion();
-      gameGrid.addActor(explosion, getLocation());
-      gameGrid.removeActorsAt(getLocation(), Alien.class);
+      game.spawnExplosion(getLocation());
+      removeSelf();
     }
     return true;
   }

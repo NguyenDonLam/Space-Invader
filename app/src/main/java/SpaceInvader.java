@@ -210,4 +210,14 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   // Use the location to spawn a bomb
   public void spawnBomb(Location location){}
 
+  /**
+   * Create an explosion at the designated location
+   * @param location: location for Explosion to be created at
+   * @author DonLam
+   */
+  public void spawnExplosion(Location location) {
+    Explosion explosion = new Explosion();
+    addActor(explosion, location);
+  }
+
 }

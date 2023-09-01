@@ -20,6 +20,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   private int nbShots = 0;
   private boolean isGameOver = false;
   private boolean isAutoTesting = false;
+  private boolean plus = false;
   private Properties properties;
   private StringBuilder logResult = new StringBuilder();
   private ArrayList<Alien[]> alienGrid = null;
@@ -57,6 +58,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
 
   public String runApp(boolean isDisplayingUI) {
     setSimulationPeriod(Integer.parseInt(properties.getProperty("simulationPeriod")));
+    if (properties.getProperty("version").equals("plus")) plus = true;
     nbRows = Integer.parseInt(properties.getProperty("rows"));
     nbCols = Integer.parseInt(properties.getProperty("cols"));
     setupAliens();
@@ -117,8 +119,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   }
 
   public void notifyAliensMoveFast() {
-    Alien.setSpeed(nbShots);
-    logResult.append("Aliens start moving fast");
+    if (!plus) return;
+    if (Alien.setSpeed(nbShots)) logResult.append("Aliens start moving fast");
   }
 
   // Change the way this work based on our discussion, keep the logResult part
@@ -133,7 +135,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   public boolean notifyAlienHit(List<Actor> actors) {
     boolean hasHit = false;
     for (Actor actor: actors) {
-      System.out.println("HELLO");
       Alien alien = (Alien)actor;
       hasHit = alien.gotHit();
       String alienData = String.format("%s@%d-%d",

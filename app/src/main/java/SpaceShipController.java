@@ -87,4 +87,8 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
         this.isAutoTesting = isAutoTesting;
         this.controls = controls;
     }
+
+    public void updateCollisionActors() {
+        spaceShip.addCollisionActors(spaceInvader.getActors(Alien.class));
+    }
 }

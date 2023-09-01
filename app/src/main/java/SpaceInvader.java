@@ -23,6 +23,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   private Properties properties;
   private StringBuilder logResult = new StringBuilder();
   private ArrayList<Alien[]> alienGrid = null;
+  private SpaceShipController spaceShipController = null;
+
   public SpaceInvader(Properties properties) {
     super(200, 100, 5, false);
     this.properties = properties;
@@ -89,7 +91,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   public void act() {
     boolean win = true;
     logResult.append("Alien locations: ");
-    for (int i = 0; i < nbRows; i++) {
+    for (int i = 0; i < alienGrid.size(); i++) {
       for (int j = 0; j < nbCols; j++) {
         Alien alienData = alienGrid.get(i)[j];
         if (alienData.getRowIndex() == -1) continue; // Does not Log new Aliens spawned from MultipleAlien
@@ -170,7 +172,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
 
   private void setupSpaceShip() {
     // Create a Spaceship Controller to handle all the spaceship controls
-    SpaceShipController spaceShipController = new SpaceShipController(this);
+    spaceShipController = new SpaceShipController(this);
 
     // Retrieve auto testing controls
     String spaceShipControl = properties.getProperty("space_craft.control");
@@ -213,7 +215,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
    * @author DonLam, Jim
    */
   public boolean haveTopSpace() {
-    int minY = Integer.MAX_VALUE, cellSize = 0;
+    int minY = Integer.MAX_VALUE;
     for (int i = 0; i < nbRows; i++) {
       for (int j = 0; j < nbCols; j++) {
         Alien alien = alienGrid.get(i)[j];
@@ -242,6 +244,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
       }
     }
     alienGrid.add(0, newAlienRow);
+    spaceShipController.updateCollisionActors();
   }
 
   /**

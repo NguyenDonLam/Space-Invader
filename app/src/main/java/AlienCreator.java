@@ -28,22 +28,25 @@ public class AlienCreator {
         Pattern pattern = Pattern.compile(search);
 
         for (int i = 0; i < nbRows; i++) {
-            alienGrid.add(new Alien[3]);
+            alienGrid.add(new Alien[nbCols]);
             for (int j = 0; j < nbCols; j++) {
                 alienGrid.get(i)[j] = new Alien(i, j);
             }
         }
         for (AlienType alienType : AlienType.values()) {
-            Matcher matcher = pattern.matcher(properties.getProperty(alienType.getPropertyName()));
-            while (matcher.find()) {
-                int rowIndex = Integer.parseInt(matcher.group(1));
-                int colIndex = Integer.parseInt(matcher.group(2));
-                if (alienType == AlienType.Powerful) {
-                    alienGrid.get(rowIndex)[colIndex] = new PowerfulAlien(rowIndex, colIndex);
-                } else if (alienType == AlienType.Invulnerable) {
-                    alienGrid.get(rowIndex)[colIndex] = new InvulnerableAlien(rowIndex, colIndex);
-                } else if (alienType == AlienType.Multiple) {
-                    alienGrid.get(rowIndex)[colIndex] = new MultipleAlien(rowIndex, colIndex);
+            String locations = properties.getProperty(alienType.getPropertyName());
+            if (locations != null) {
+                Matcher matcher = pattern.matcher(locations);
+                while (matcher.find()) {
+                    int rowIndex = Integer.parseInt(matcher.group(1));
+                    int colIndex = Integer.parseInt(matcher.group(2));
+                    if (alienType == AlienType.Powerful) {
+                        alienGrid.get(rowIndex)[colIndex] = new PowerfulAlien(rowIndex, colIndex);
+                    } else if (alienType == AlienType.Invulnerable) {
+                        alienGrid.get(rowIndex)[colIndex] = new InvulnerableAlien(rowIndex, colIndex);
+                    } else if (alienType == AlienType.Multiple) {
+                        alienGrid.get(rowIndex)[colIndex] = new MultipleAlien(rowIndex, colIndex);
+                    }
                 }
             }
         }

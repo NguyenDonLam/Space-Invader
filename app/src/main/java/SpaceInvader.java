@@ -20,7 +20,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   private int nbShots = 0;
   private boolean isGameOver = false;
   private boolean isAutoTesting = false;
-  private Properties properties = null;
+  private Properties properties;
   private StringBuilder logResult = new StringBuilder();
   private ArrayList<Alien[]> alienGrid = null;
   public SpaceInvader(Properties properties) {
@@ -31,7 +31,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   /**
    * Create and set up all aliens
    *
-   * Modified to work with different alien classes instead of
+   * Now modified to work with different alien classes instead of
    * Alien.type strings
    * @author DonLam
    */
@@ -92,6 +92,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     for (int i = 0; i < nbRows; i++) {
       for (int j = 0; j < nbCols; j++) {
         Alien alienData = alienGrid.get(i)[j];
+        if (alienData.getRowIndex() == -1) continue; // Does not Log new Aliens spawned from MultipleAlien
 
         String isDeadStatus;
         if (alienData.isRemoved()) {
@@ -235,9 +236,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
       Location spawnPoint = new Location(anchor.getX() + (c - anchor.getColIndex()) * 10, anchor.getY() - 10);
       Alien alien = new Alien(-1, c);
       newAlienRow[c] = alien;
-      addActor(alien, spawnPoint);
-      alien.setStep(anchor.getStep());
-      alien.setDirection(anchor.getDirection());
+      addAlien(alien, spawnPoint, anchor);
       if (anchor.getRowIndex() != -1) {
         alien.act();
       }
@@ -289,5 +288,19 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
       }
     }
     return true;
+  }
+
+  /**
+   * Adds a new Alien to the game
+   * @param newAlien: the new Alien to be added.
+   * @param location: the location in which the new Alien will be added to.
+   * @param anchor: an old Alien, in order for the new Alien to sync with the rest.
+   *
+   * @author DonLam
+   */
+  public void addAlien(Alien newAlien, Location location, Alien anchor) {
+    addActor(newAlien, location);
+    newAlien.setDirection(anchor.getDirection());
+    newAlien.setStep(anchor.getStep());
   }
 }

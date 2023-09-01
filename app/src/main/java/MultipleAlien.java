@@ -5,12 +5,12 @@ import java.util.Random;
  * when space is detected.
  *
  * @author DonLam
- * @version 1.0
+ * @version 1.1
  */
 
 public class MultipleAlien extends Alien {
     private static final String SPRITE_FILE = "sprites/multiple_alien.gif";
-    private boolean hasMultiplied = false;
+    private Alien postMultiplied = new Alien(getRowIndex(), getColIndex());
     /**
      * @param rowIndex: the row in which the alien will situate on
      * @param colIndex: the column in which the alien will situate on
@@ -20,7 +20,7 @@ public class MultipleAlien extends Alien {
     }
     public void act() {
         super.act();
-        if (!hasMultiplied) handleSpawning();
+        handleSpawning();
     }
 
     /**
@@ -31,9 +31,11 @@ public class MultipleAlien extends Alien {
         if (game.haveTopSpace()) {
             Random randomizer = new Random();
             int result = randomizer.nextInt(1, 8);
-            if (result == 1 && !game.getMultiply()) {
+            if (result == 1) {
                 game.generateTopAlienRow();
-                hasMultiplied = true;
+                game.addAlien(postMultiplied, getLocation(), this);
+                removeSelf();
+
             }
         }
     }

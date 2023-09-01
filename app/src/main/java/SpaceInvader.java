@@ -18,7 +18,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   private int nbRows = 3;
   private int nbCols = 11;
   private int nbShots = 0;
-  private boolean multiply = false;
   private boolean isGameOver = false;
   private boolean isAutoTesting = false;
   private Properties properties = null;
@@ -33,7 +32,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
    * Create and set up all aliens
    *
    * Modified to work with different alien classes instead of
-   * type strings by
+   * Alien.type strings
    * @author DonLam
    */
   private void setupAliens() {
@@ -113,10 +112,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     logResult.append("\n");
     if (win) setIsGameOver(true, true, null);
     updateAlienGrid();
-    if (haveTopSpace() && multiply) {
-      generateTopAlienRow();
-      multiply = false;
-    }
   }
 
   public void notifyAliensMoveFast() {
@@ -227,6 +222,12 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     if (minY >= 15) return true;
     return false;
   }
+
+  /**
+   * Spawn a new row of Aliens, on top of the current top-most alien
+   *
+   * @author DonLam, Chi-Yuan
+   */
   public void generateTopAlienRow() {
     Alien anchor = findTopLeftMostAlien();
     Alien[] newAlienRow = new Alien[nbCols];
@@ -237,17 +238,11 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
       addActor(alien, spawnPoint);
       alien.setStep(anchor.getStep());
       alien.setDirection(anchor.getDirection());
-    }
-    alienGrid.add(0, newAlienRow);
-    System.out.println("++++++++++++++++++");
-    System.out.println("Anchor steps:" + anchor.getStep());
-    for(Alien [] aliens: alienGrid) {
-      for (Alien alien : aliens) {
-        System.out.println(alien.getStep());
-
+      if (anchor.getRowIndex() != -1) {
+        alien.act();
       }
     }
-    System.out.println("++++++++++++++++++");
+    alienGrid.add(0, newAlienRow);
   }
 
   /**
@@ -295,10 +290,4 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     }
     return true;
   }
-
-  public void setMultiply(boolean multiply) {
-    this.multiply = multiply;
-  }
-
-  public boolean getMultiply() {return multiply;}
 }

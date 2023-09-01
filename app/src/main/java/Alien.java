@@ -156,6 +156,10 @@ public class Alien extends Actor
   public int getStep() {
     return nbSteps;
   }
+
+  /**
+   * @return how far Alien is stepping per step.
+   */
   public int getStepSize() {
     return stepSize;
   }

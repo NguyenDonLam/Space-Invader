@@ -35,7 +35,6 @@ public class MultipleAlien extends Alien {
                 game.generateTopAlienRow();
                 game.addAlien(postMultiplied, getLocation(), this);
                 removeSelf();
-
             }
         }
     }

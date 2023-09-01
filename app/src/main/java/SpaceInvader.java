@@ -114,7 +114,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     }
     logResult.append("\n");
     if (win) setIsGameOver(true, true, null);
-    updateAlienGrid();
   }
 
   public void notifyAliensMoveFast() {
@@ -216,7 +215,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
    */
   public boolean haveTopSpace() {
     int minY = Integer.MAX_VALUE;
-    for (int i = 0; i < nbRows; i++) {
+    for (int i = 0; i < alienGrid.size(); i++) {
       for (int j = 0; j < nbCols; j++) {
         Alien alien = alienGrid.get(i)[j];
         if (!alien.isRemoved()) minY = Math.min(alien.getY(), minY);
@@ -243,8 +242,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
         alien.act();
       }
     }
-    alienGrid.add(0, newAlienRow);
-    spaceShipController.updateCollisionActors();
+    alienGrid.add(newAlienRow);
   }
 
   /**
@@ -254,43 +252,24 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
    * @author DonLam
    */
   public Alien findTopLeftMostAlien() {
+    int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE;
+    Alien anchor = null;
     for (int r = 0; r < alienGrid.size(); r++) {
       for (int c = 0; c < nbCols; c++) {
-        if (!alienGrid.get(r)[c].isRemoved()) {
-          return alienGrid.get(r)[c];
+        Alien alien = alienGrid.get(r)[c];
+        if (!alien.isRemoved()) {
+          if (alien.getY() < minY) {
+            anchor = alien;
+            minY = anchor.getY();
+            minX = anchor.getX();
+          } else if (alien.getY() == minY && alien.getX() < minX) {
+            anchor = alien;
+            minX = anchor.getX();
+          }
         }
       }
     }
-    return null;
-  }
-
-  /**
-   * Remove top-most rows when all aliens are gone
-   *
-   * @author DonLam
-   */
-  public void updateAlienGrid() {
-    int row = 0;
-    while (allAliensGone(row) && row < alienGrid.size()){
-      alienGrid.remove(row);
-      row++;
-    }
-  }
-
-  /**
-   * Check if all aliens of a particular row is gone.
-   * @param row: the row to be checked at.
-   * @return whether the row still has active alien(s).
-   *
-   * @author DonLam
-   */
-  public boolean allAliensGone(int row) {
-    for (int i = 0; i < nbCols; i++) {
-      if(!alienGrid.get(row)[i].isRemoved()) {
-        return false;
-      }
-    }
-    return true;
+    return anchor;
   }
 
   /**
@@ -305,5 +284,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     addActor(newAlien, location);
     newAlien.setDirection(anchor.getDirection());
     newAlien.setStep(anchor.getStep());
+    spaceShipController.updateCollisionActors();
   }
 }

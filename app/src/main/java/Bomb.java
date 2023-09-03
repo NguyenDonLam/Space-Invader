@@ -15,15 +15,22 @@ public class Bomb extends Actor
     setDirection(Location.NORTH);
   }
 
+  /**
+   * Continue moving until reaches the end of the game window
+   */
   public void act()
   {
-    // Continue moving until reaches the end of the game window
     move();
     if (getLocation().y < 5)
       removeSelf();
   }
 
-  // Searching a possible target and notify spaceInvader if hit
+  /**
+   * Searching a possible target and notify spaceInvader if hit
+   * @param actor1: the first actor that collide with the bomb
+   * @param actor2: the second actor that collide with the bomb
+   * @return a default integer 0
+   */
   @Override
   public int collide(Actor actor1, Actor actor2) {
     boolean hasHit = false;

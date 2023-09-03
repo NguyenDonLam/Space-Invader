@@ -5,7 +5,10 @@ import java.util.regex.*;
 public class AlienCreator {
 
     private static AlienCreator instance;
-    private AlienCreator() {}
+
+    private AlienCreator() {
+    }
+
     public static AlienCreator getInstance() {
         if (instance == null) {
             instance = new AlienCreator();
@@ -15,14 +18,14 @@ public class AlienCreator {
 
     /**
      * Create the Aliens as specified in the provided properties
-     * @param properties: the property(HashMap) containing information of the level
-     * @param nbRows:
-     * @param nbCols:
-     * @return an 2D-Array of Aliens, created on all specified location
      *
+     * @param properties: the property containing initialisation information of the game
+     * @param nbRows:     number of rows of aliens
+     * @param nbCols:     number of columns of aliens
+     * @return an ArrayList of 1D-Array of Aliens, created on all specified location
      * @author DonLam, Chi-Yuan
      */
-    public ArrayList<Alien[]> createAliens(Properties properties, int nbRows, int nbCols){
+    public ArrayList<Alien[]> createAliens(Properties properties, int nbRows, int nbCols) {
         ArrayList<Alien[]> alienGrid = new ArrayList<Alien[]>();
         String search = "(\\d+)-(\\d+)";
         Pattern pattern = Pattern.compile(search);

@@ -17,13 +17,20 @@ public class SpaceShip extends Actor
       setLocation(location);
   }
 
-  // Spaceship notifies SpaceInvader that a bomb has been fired
+  /**
+   * Spaceship notifies SpaceInvader that a bomb has been fired
+   */
   public void shoot() {
     SpaceInvader spaceInvader = (SpaceInvader) gameGrid;
     spaceInvader.spawnBomb(getLocation());
   }
 
-  // Game over when the spaceship collides with an alien
+  /** Game over when the spaceship collides with an alien
+   *
+   * @param actor1: the first collided actor
+   * @param actor2: the second collided actor
+   * @return a default integer 0
+   */
   @Override
   public int collide(Actor actor1, Actor actor2) {
     if (actor1 instanceof Alien || actor2 instanceof Alien) {

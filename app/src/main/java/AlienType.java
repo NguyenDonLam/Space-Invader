@@ -3,7 +3,7 @@ public enum AlienType {
     Invulnerable("Invulnerable.locations"),
     Multiple("Multiple.locations");
 
-    private String propertyName;
+    private final String propertyName;
 
     AlienType(String propertyName) {
         this.propertyName = propertyName;

@@ -21,8 +21,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   private boolean isGameOver = false;
   private boolean isAutoTesting = false;
   private boolean plus = false;
-  private Properties properties;
-  private StringBuilder logResult = new StringBuilder();
+  private final Properties properties;
+  private final StringBuilder logResult = new StringBuilder();
   private ArrayList<Alien[]> alienGrid = null;
   private SpaceShipController spaceShipController = null;
 
@@ -33,10 +33,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
 
   /**
    * Create and set up all aliens
-   *
-   * Now modified to work with different alien classes instead of
-   * Alien.type strings
-   * @author DonLam
    */
   private void setupAliens() {
     AlienCreator alienCreator = AlienCreator.getInstance();
@@ -89,6 +85,9 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     return logResult.toString();
   }
 
+  /**
+   * Detect game winning conditions
+   */
   @Override
   public void act() {
     boolean win = true;
@@ -118,6 +117,9 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     if (win) setIsGameOver(true, true, null);
   }
 
+  /**
+   * Increase the speed on the aliens based on the nbShots
+   */
   public void notifyAliensMoveFast() {
     if (!plus) return;
     if (Alien.setSpeed(nbShots)) logResult.append("Aliens start moving fast");
@@ -126,11 +128,9 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   // Change the way this work based on our discussion, keep the logResult part
 
   /**
-   * Log the actors who will be notified of being hit.
-   * @param actors: the list of actors to be notified.
-   *
-   * modified by calling gotHit() on all actors provided by
-   * @author DonLam
+   * Loop through all alien actors and notify them the hit
+   * @param actors : an ArrayList of Actors that collides with the bomb
+   * @return whether the alien has actually been hit
    */
   public boolean notifyAlienHit(List<Actor> actors) {
     boolean hasHit = false;
@@ -162,14 +162,16 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
 
   /**
    * Create an explosion at the designated location
-   * @param location: location for Explosion to be created at
-   * @author DonLam
+   * @param location: location for Explosion to be created on
    */
   public void spawnExplosion(Location location) {
     Explosion explosion = new Explosion();
     addActor(explosion, location);
   }
 
+  /**
+   * Setup spaceship controller
+   */
   private void setupSpaceShip() {
     // Create a Spaceship Controller to handle all the spaceship controls
     spaceShipController = new SpaceShipController(this);
@@ -188,6 +190,13 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     addKeyListener(spaceShipController);
     addActListener(spaceShipController);
   }
+
+  /**
+   * Show game over behaviours
+   * @param isGameOver: if the game is over
+   * @param win: if the player wins
+   * @param location: the location of the spaceship
+   */
   public void setIsGameOver(boolean isGameOver, boolean win, Location location) {
     this.isGameOver = isGameOver;
     // Display win messages when the player wins otherwise show explosion
@@ -200,6 +209,11 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
       addActor(new Actor("sprites/explosion2.gif"), location);
     }
   }
+
+  /**
+   * Create a new bomb when the spaceship shoots
+   * @param location: the location of the spaceship
+   */
   public void spawnBomb(Location location){
     Bomb bomb = new Bomb();
     bomb.addCollisionActors(getActors(Alien.class));
@@ -210,9 +224,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   }
 
   /**
-   * Checks whether there are space on the top-most area of the game
-   * @return whether the top area od the game is spawnable.
-   * @author DonLam, Jim
+   * Checks whether there is space on the top-most area of the game
+   * @return whether the top area of the game is large enough for spawning
    */
   public boolean haveTopSpace() {
     int minY = Integer.MAX_VALUE;
@@ -222,13 +235,11 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
         if (!alien.isRemoved()) minY = Math.min(alien.getY(), minY);
       }
     }
-    if (minY >= 15) return true;
-    return false;
+    return minY >= 15;
   }
 
   /**
    * Spawn a new row of Aliens, on top of the current top-most alien
-   *
    * @author DonLam, Chi-Yuan
    */
   public void generateTopAlienRow() {
@@ -247,10 +258,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   }
 
   /**
-   * Find the top-left-most active alien still in the game
+   * Find the top-left-most active alien that are still in the game
    * @return the top-left-most active alien
-   *
-   * @author DonLam
    */
   public Alien findTopLeftMostAlien() {
     int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE;
@@ -274,12 +283,10 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
   }
 
   /**
-   * Adds a new Alien to the game
+   * Add a new Alien to the game
    * @param newAlien: the new Alien to be added.
    * @param location: the location in which the new Alien will be added to.
    * @param anchor: an old Alien, in order for the new Alien to sync with the rest.
-   *
-   * @author DonLam
    */
   public void addAlien(Alien newAlien, Location location, Alien anchor) {
     addActor(newAlien, location);

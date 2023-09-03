@@ -10,7 +10,8 @@ import java.util.Random;
 
 public class MultipleAlien extends Alien {
     private static final String SPRITE_FILE = "sprites/multiple_alien.gif";
-    private Alien postMultiplied = new Alien(getRowIndex(), getColIndex());
+    private final Alien postMultiplied = new Alien(getRowIndex(), getColIndex());
+
     /**
      * @param rowIndex: the row in which the alien will situate on
      * @param colIndex: the column in which the alien will situate on
@@ -39,9 +40,6 @@ public class MultipleAlien extends Alien {
         }
     }
 
-    /**
-     * @return the type of the alien, to be used for Logging only.
-     */
     @Override
     public String getType() {
         return "multiple";

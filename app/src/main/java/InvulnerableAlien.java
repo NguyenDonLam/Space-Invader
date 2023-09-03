@@ -18,6 +18,7 @@ public class InvulnerableAlien extends Alien {
     {
         super(SPRITE_FILE, rowIndex, colIndex);
     }
+
     public void act() {
         super.act();
         InvulnerabilityHandler();
@@ -39,10 +40,7 @@ public class InvulnerableAlien extends Alien {
      * Swap the state the Alien is currently in.
      */
     private void swapState() {
-        if (isInvulnerable)
-            isInvulnerable = false;
-        else
-            isInvulnerable = true;
+        isInvulnerable = !isInvulnerable;
     }
 
     /**
@@ -57,9 +55,7 @@ public class InvulnerableAlien extends Alien {
          else
             return super.gotHit();
     }
-    /**
-     * @return the type of the alien, to be used for Logging only
-     */
+
     @Override
     public String getType() {
         return "alien";

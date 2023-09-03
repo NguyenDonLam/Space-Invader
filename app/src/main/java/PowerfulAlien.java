@@ -7,6 +7,7 @@
  */
 public class PowerfulAlien extends Alien {
     private static final String SPRITE_FILE = "sprites/powerful_alien.gif";
+
     /**
      * @param rowIndex: the row in which the alien will situate on
      * @param colIndex: the column in which the alien will situate on
@@ -20,9 +21,7 @@ public class PowerfulAlien extends Alien {
     public void act() {
         super.act();
     }
-    /**
-     * @return the type of the alien, to be used for Logging only
-     */
+
     @Override
     public String getType() {
         return "powerful";

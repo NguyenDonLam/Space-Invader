@@ -6,8 +6,8 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class SpaceShipController extends GGKeyAdapter implements GGActListener {
-    private SpaceShip spaceShip;
-    private SpaceInvader spaceInvader;
+    private final SpaceShip spaceShip;
+    private final SpaceInvader spaceInvader;
     private boolean isAutoTesting = false;
     private List<String> controls = null;
     private int controlIndex = 0;
@@ -21,6 +21,11 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
         this.spaceInvader.addActor(spaceShip, new Location(100, 90));
     }
 
+    /**
+     * Handle user input for the spaceship
+     * @param keyEvent: the key that is pressed
+     * @return do not consume
+     */
     @Override
     public boolean keyPressed(KeyEvent keyEvent) {
         Location next = null;
@@ -52,6 +57,9 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
         return false;
     }
 
+    /**
+     * Read auto-testing controls
+     */
     @Override
     public void act() {
         // Take one control from the control list every simulation when auto testing
@@ -88,6 +96,9 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
         this.controls = controls;
     }
 
+    /**
+     * Update collidable actors for the spaceship when new aliens are created
+     */
     public void updateCollisionActors() {
         spaceShip.addCollisionActors(spaceInvader.getActors(Alien.class));
     }

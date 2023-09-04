@@ -95,7 +95,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
     for (int i = 0; i < alienGrid.size(); i++) {
       for (int j = 0; j < nbCols; j++) {
         Alien alienData = alienGrid.get(i)[j];
-        if (alienData.getRowIndex() == -1) continue; // Does not Log new Aliens spawned from MultipleAlien
 
         String isDeadStatus;
         if (alienData.isRemoved()) {
@@ -104,6 +103,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener
           isDeadStatus = "Alive";
           win = false;
         }
+
+        if (alienData.getRowIndex() == -1) continue; // Don't log new aliens spawned by MultipleAlien
         String gridLocation = "0-0";
         if (!alienData.isRemoved()) {
           gridLocation = alienData.getX() + "-" + alienData.getY();

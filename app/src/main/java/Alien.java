@@ -124,9 +124,9 @@ public class Alien extends Actor {
                 move();
                 turn(angle);
             }
-            if (getLocation().y > 90)
-                removeSelf();
         }
+        if (getLocation().y > 90)
+            removeSelf();
     }
 
     /**

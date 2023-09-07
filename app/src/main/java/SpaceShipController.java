@@ -11,6 +11,7 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
     private boolean isAutoTesting = false;
     private List<String> controls = null;
     private int controlIndex = 0;
+    private final Location SPAWN_LOCATION = new Location(100, 90);
 
     public SpaceShipController(SpaceInvader spaceInvader) {
         // Create a spaceship and add it to the game grid
@@ -18,11 +19,12 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
         spaceShip = new SpaceShip();
         spaceShip.addCollisionActors(spaceInvader.getActors(Alien.class));
         spaceShip.addActorCollisionListener(spaceShip);
-        this.spaceInvader.addActor(spaceShip, new Location(100, 90));
+        this.spaceInvader.addActor(spaceShip, SPAWN_LOCATION);
     }
 
     /**
      * Handle user input for the spaceship
+     *
      * @param keyEvent: the key that is pressed
      * @return do not consume
      */
@@ -32,8 +34,7 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
         if (isAutoTesting) return false;
 
         // Take user input if the mode is not auto testing
-        switch (keyEvent.getKeyCode())
-        {
+        switch (keyEvent.getKeyCode()) {
             case KeyEvent.VK_LEFT:
                 next = spaceShip.getLocation().getAdjacentLocation(Location.WEST);
                 spaceShip.moveTo(next);
@@ -68,7 +69,7 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
                 String control = controls.get(controlIndex);
                 Location next = null;
 
-                switch(control) {
+                switch (control) {
                     case "L":
                         next = spaceShip.getLocation().getAdjacentLocation(Location.WEST);
                         spaceShip.moveTo(next);

@@ -7,15 +7,15 @@
  */
 public class PowerfulAlien extends Alien {
     private static final String SPRITE_FILE = "sprites/powerful_alien.gif";
+    private static final int HEALTH = 5;
 
     /**
      * @param rowIndex: the row in which the alien will situate on
      * @param colIndex: the column in which the alien will situate on
      */
-    public PowerfulAlien(int rowIndex, int colIndex)
-    {
+    public PowerfulAlien(int rowIndex, int colIndex) {
         super(SPRITE_FILE, rowIndex, colIndex);
-        healthPoints = 5;
+        healthPoints = HEALTH;
     }
 
     public void act() {

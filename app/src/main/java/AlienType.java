@@ -9,6 +9,8 @@ public enum AlienType {
         this.propertyName = propertyName;
     }
 
-    public String getPropertyName() {return propertyName;}
+    public String getPropertyName() {
+        return propertyName;
+    }
 
 }

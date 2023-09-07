@@ -1,13 +1,11 @@
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AlienCreator {
 
     private static AlienCreator instance;
-
-    private AlienCreator() {
-    }
 
     public static AlienCreator getInstance() {
         if (instance == null) {

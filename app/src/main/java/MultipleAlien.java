@@ -10,7 +10,9 @@ import java.util.Random;
 
 public class MultipleAlien extends Alien {
     private static final String SPRITE_FILE = "sprites/multiple_alien.gif";
-    private final Alien postMultiplied = new Alien(getRowIndex(), getColIndex());
+    private final Alien children = new Alien(getRowIndex(), getColIndex());
+    private static final int SPAWN_CODE = 1;
+    private static final int CHANCE = 8;
 
     /**
      * @param rowIndex: the row in which the alien will situate on
@@ -19,6 +21,7 @@ public class MultipleAlien extends Alien {
     public MultipleAlien(int rowIndex, int colIndex) {
         super(SPRITE_FILE, rowIndex, colIndex);
     }
+
     public void act() {
         super.act();
         handleSpawning();
@@ -31,10 +34,10 @@ public class MultipleAlien extends Alien {
         SpaceInvader game = (SpaceInvader) gameGrid;
         if (game.haveTopSpace()) {
             Random randomizer = new Random();
-            int result = randomizer.nextInt(1, 8);
-            if (result == 1) {
+            int result = randomizer.nextInt(SPAWN_CODE, CHANCE);
+            if (result == SPAWN_CODE) {
                 game.generateTopAlienRow();
-                game.addAlien(postMultiplied, getLocation(), this);
+                game.addAlien(children, getLocation(), this);
                 removeSelf();
             }
         }

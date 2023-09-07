@@ -8,7 +8,7 @@ import java.util.List;
 public class Alien extends Actor {
     private static int stepSize = 1;
     private final int maxNbSteps = 16;
-    protected int healthPoints = 1; // NDL changed visibility from private to protected
+    protected int healthPoints = 1;
     private int nbSteps;
     private boolean isMoving = true;
     private boolean isAutoTesting;
@@ -16,6 +16,7 @@ public class Alien extends Actor {
     private int movementIndex = 0;
     private final int rowIndex;
     private final int colIndex;
+    private static final int BOTTOM_BOUNDARY = 90;
 
     public Alien(int rowIndex, int colIndex) {
         super("sprites/alien.gif");
@@ -39,11 +40,6 @@ public class Alien extends Actor {
         this.colIndex = colIndex;
     }
 
-    // Function to check if n is between a range of numbers
-    private static boolean isBetween(int n, int lower, int upper) {
-        return lower <= n && n <= upper;
-    }
-
     /**
      * Move an alien by a certain number of steps based on the current speed
      *
@@ -55,11 +51,11 @@ public class Alien extends Actor {
         // Increase the alien's speed accordingly to nbShots
         if (nbShots < 10) {
             newStepSize = 1;
-        } else if (isBetween(nbShots, 10, 49)) {
+        } else if (nbShots < 50) {
             newStepSize = 2;
-        } else if (isBetween(nbShots, 50, 99)) {
+        } else if (nbShots < 100) {
             newStepSize = 3;
-        } else if (isBetween(nbShots, 100, 499)) {
+        } else if (nbShots < 500) {
             newStepSize = 4;
         } else {
             newStepSize = 5;
@@ -125,7 +121,7 @@ public class Alien extends Actor {
                 turn(angle);
             }
         }
-        if (getLocation().y > 90)
+        if (getLocation().y > BOTTOM_BOUNDARY)
             removeSelf();
     }
 
@@ -160,12 +156,5 @@ public class Alien extends Actor {
 
     public void setStep(int newStep) {
         nbSteps = newStep;
-    }
-
-    /**
-     * @return how far Alien is stepping per step.
-     */
-    public int getStepSize() {
-        return stepSize;
     }
 }

@@ -1,8 +1,5 @@
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 public class PropertiesLoader {
@@ -13,23 +10,23 @@ public class PropertiesLoader {
 
             // load a properties file
             prop.load(input);
-            if( prop.getProperty("space_craft.control").equals("")){
+            if (prop.getProperty("space_craft.control").equals("")) {
                 prop.remove("space_craft.control");
             }
 
-            if( prop.getProperty("Powerful.locations").equals("")){
+            if (prop.getProperty("Powerful.locations").equals("")) {
                 prop.remove("Powerful.locations");
             }
 
-            if( prop.getProperty("Invulnerable.locations").equals("")){
+            if (prop.getProperty("Invulnerable.locations").equals("")) {
                 prop.remove("Invulnerable.locations");
             }
 
-            if( prop.getProperty("Multiple.locations").equals("")){
+            if (prop.getProperty("Multiple.locations").equals("")) {
                 prop.remove("Multiple.locations");
             }
 
-            if( prop.getProperty("aliens.control").equals("")){
+            if (prop.getProperty("aliens.control").equals("")) {
                 prop.remove("aliens.control");
             }
 

@@ -2,7 +2,7 @@
 // Used for SpaceInvader
 /**
  * The class represents an alien in a space invader game.
- *
+ * Tuesday-9AM-Team1a
  * @author DonLam, Chi-Yuan, AndreChiang
  */
 
@@ -52,7 +52,6 @@ public class Alien extends Actor {
      *
      * @param nbShots : number of shots that the spaceship has fired
      * @return whether the speed is increased
-     *
      * @author AndreChiang, Chi-Yuan
      */
     public static boolean setSpeed(int nbShots) {

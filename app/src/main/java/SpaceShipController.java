@@ -1,6 +1,6 @@
 /**
  * This class handles the key press inputs for spaceship within the game
- *
+ * Tuesday-9AM-Team1a
  * @author DonLam, Chi-Yuan, AndreChiang
  */
 import ch.aplu.jgamegrid.GGActListener;

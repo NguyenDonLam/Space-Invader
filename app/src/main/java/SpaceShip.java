@@ -3,7 +3,7 @@
 /**
  * This class represents a spaceship within the game, which has the ability to
  * move, shoot, and die to any Alien if collided
- *
+ * Tuesday-9AM-Team1a
  * @author Chi-Yuan
  */
 import ch.aplu.jgamegrid.Actor;

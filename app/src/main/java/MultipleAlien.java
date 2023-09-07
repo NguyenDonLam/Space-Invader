@@ -1,7 +1,7 @@
 /**
  * This class represents a Multiple Alien, which multiplies randomly
  * when space is detected.
- *
+ * Tuesday-9AM-Team1a
  * @author DonLam, Chi-Yuan, AndreChiang
  */
 import java.util.Random;

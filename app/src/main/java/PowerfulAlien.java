@@ -1,7 +1,7 @@
 /**
  * This class represents a Powerful Alien in the game, in which it
  * requires 5 shots from the player to explode.
- *
+ * Tuesday-9AM-Team1a
  * @author DonLam, Chi-Yuan, AndreChiang
  */
 public class PowerfulAlien extends Alien {

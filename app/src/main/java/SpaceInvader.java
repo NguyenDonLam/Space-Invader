@@ -6,7 +6,7 @@
  * The class represents a game of space invader, with a spaceship, and hoards of aliens
  * moving downward, game lost if spaceship collides with an alien, and game won if either
  * all aliens are destroyed, or out of frame.
- *
+ * Tuesday-9AM-Team1a
  * @author DonLam, Chi-Yuan, AndreChiang
  */
 

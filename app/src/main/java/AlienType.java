@@ -1,7 +1,7 @@
 /**
  * The enum represents the extra 3 alien types within a property file,
  * for iteration in AlienCreator only.
- *
+ * Tuesday-9AM-Team1a
  * @author Chi-Yuan
  */
 public enum AlienType {

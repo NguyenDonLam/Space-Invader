@@ -1,7 +1,7 @@
 /**
  * This class represents an Invulnerable Alien in the game, in which it
  * swaps from an invulnerable state to normal from time to time.
- *
+ * Tuesday-9AM-Team1a
  * @author DonLam, Chi-Yuan, AndreChiang
  */
 public class InvulnerableAlien extends Alien {

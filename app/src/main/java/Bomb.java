@@ -3,7 +3,7 @@
 /**
  * The class represents a projectile shot by the spaceship(player) in a
  * space invader game
- *
+ * Tuesday-9AM-Team1a
  * @author DonLam, Chi-Yuan, AndreChiang
  */
 

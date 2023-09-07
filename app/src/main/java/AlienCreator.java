@@ -1,6 +1,6 @@
 /**
  * The class handles the spawning of the original aliens in a space invader game
- *
+ * Tuesday-9AM-Team1a
  * @author DonLam, Chi-Yuan, AndreChiang
  */
 import java.util.ArrayList;

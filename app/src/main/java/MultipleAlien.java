@@ -1,15 +1,14 @@
-import java.util.Random;
-
 /**
  * This class represents a Multiple Alien, which multiplies randomly
  * when space is detected.
  *
- * @author DonLam
- * @version 1.1
+ * @author DonLam, Chi-Yuan, AndreChiang
  */
+import java.util.Random;
 
 public class MultipleAlien extends Alien {
     private static final String SPRITE_FILE = "sprites/multiple_alien.gif";
+    private final String TYPE = "multiple";
     private final Alien children = new Alien(getRowIndex(), getColIndex());
     private static final int SPAWN_CODE = 1;
     private static final int CHANCE = 8;
@@ -17,6 +16,8 @@ public class MultipleAlien extends Alien {
     /**
      * @param rowIndex: the row in which the alien will situate on
      * @param colIndex: the column in which the alien will situate on
+     *
+     * @author DonLam
      */
     public MultipleAlien(int rowIndex, int colIndex) {
         super(SPRITE_FILE, rowIndex, colIndex);
@@ -28,7 +29,8 @@ public class MultipleAlien extends Alien {
     }
 
     /**
-     * Handles the spawning of new Aliens.
+     * Handles the spawning of new Alien.
+     * @author DonLam
      */
     public void handleSpawning() {
         SpaceInvader game = (SpaceInvader) gameGrid;
@@ -43,8 +45,12 @@ public class MultipleAlien extends Alien {
         }
     }
 
+    /**
+     * @return the type of the Alien, for logging only.
+     * @author DonLam
+     */
     @Override
     public String getType() {
-        return "multiple";
+        return TYPE;
     }
 }

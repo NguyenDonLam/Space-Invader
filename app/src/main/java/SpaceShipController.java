@@ -1,10 +1,14 @@
+/**
+ * This class handles the key press inputs for spaceship within the game
+ *
+ * @author DonLam, Chi-Yuan, AndreChiang
+ */
 import ch.aplu.jgamegrid.GGActListener;
 import ch.aplu.jgamegrid.GGKeyAdapter;
 import ch.aplu.jgamegrid.Location;
 
 import java.awt.event.KeyEvent;
 import java.util.List;
-
 public class SpaceShipController extends GGKeyAdapter implements GGActListener {
     private final SpaceShip spaceShip;
     private final SpaceInvader spaceInvader;
@@ -13,6 +17,12 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
     private int controlIndex = 0;
     private final Location SPAWN_LOCATION = new Location(100, 90);
 
+    /**
+     * Set up the SpaceShipController for a space invader game.
+     * @param spaceInvader: the game for which the controller will be for.
+     *
+     * @author Chi-Yuan
+     */
     public SpaceShipController(SpaceInvader spaceInvader) {
         // Create a spaceship and add it to the game grid
         this.spaceInvader = spaceInvader;
@@ -27,6 +37,8 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
      *
      * @param keyEvent: the key that is pressed
      * @return do not consume
+     *
+     * @author Chi-Yuan
      */
     @Override
     public boolean keyPressed(KeyEvent keyEvent) {
@@ -60,6 +72,7 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
 
     /**
      * Read auto-testing controls
+     * @author Chi-Yuan
      */
     @Override
     public void act() {
@@ -92,6 +105,13 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
         }
     }
 
+    /**
+     *
+     * @param isAutoTesting: whether the program is run in test mode or not.
+     * @param controls: the list of controls to be given to the spaceship.
+     *
+     * @author Chi-Yuan
+     */
     public void setTestingConditions(boolean isAutoTesting, List<String> controls) {
         this.isAutoTesting = isAutoTesting;
         this.controls = controls;
@@ -99,6 +119,7 @@ public class SpaceShipController extends GGKeyAdapter implements GGActListener {
 
     /**
      * Update collidable actors for the spaceship when new aliens are created
+     * @author Chi-Yuan
      */
     public void updateCollisionActors() {
         spaceShip.addCollisionActors(spaceInvader.getActors(Alien.class));

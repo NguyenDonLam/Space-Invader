@@ -1,5 +1,10 @@
 // Alien.java
 // Used for SpaceInvader
+/**
+ * The class represents an alien in a space invader game.
+ *
+ * @author DonLam, Chi-Yuan, AndreChiang
+ */
 
 import ch.aplu.jgamegrid.Actor;
 
@@ -17,9 +22,11 @@ public class Alien extends Actor {
     private final int rowIndex;
     private final int colIndex;
     private static final int BOTTOM_BOUNDARY = 90;
+    private static final String SPRITE_FILE = "sprites/alien.gif";
+    private final String TYPE = "alien";
 
     public Alien(int rowIndex, int colIndex) {
-        super("sprites/alien.gif");
+        super(SPRITE_FILE);
         setSlowDown(7);
         this.rowIndex = rowIndex;
         this.colIndex = colIndex;
@@ -45,6 +52,8 @@ public class Alien extends Actor {
      *
      * @param nbShots : number of shots that the spaceship has fired
      * @return whether the speed is increased
+     *
+     * @author AndreChiang, Chi-Yuan
      */
     public static boolean setSpeed(int nbShots) {
         int newStepSize;
@@ -147,13 +156,19 @@ public class Alien extends Actor {
      * @author DonLam
      */
     public String getType() {
-        return "alien";
+        return TYPE;
     }
-
+    /**
+     * @return the current step of the Alien.
+     * @author DonLam
+     */
     public int getStep() {
         return nbSteps;
     }
-
+    /**
+     * Set the current step of the Alien
+     * @author Chi-Yuan
+     */
     public void setStep(int newStep) {
         nbSteps = newStep;
     }

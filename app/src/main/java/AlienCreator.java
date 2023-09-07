@@ -1,3 +1,8 @@
+/**
+ * The class handles the spawning of the original aliens in a space invader game
+ *
+ * @author DonLam, Chi-Yuan, AndreChiang
+ */
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -7,6 +12,12 @@ public class AlienCreator {
 
     private static AlienCreator instance;
 
+    /**
+     * Gets the instance of the AlienCreator class, else create one (Singleton pattern)
+     * @return the current instance of AlienCreator
+     *
+     * @author AndreChiang
+     */
     public static AlienCreator getInstance() {
         if (instance == null) {
             instance = new AlienCreator();
@@ -21,6 +32,7 @@ public class AlienCreator {
      * @param nbRows:     number of rows of aliens
      * @param nbCols:     number of columns of aliens
      * @return an ArrayList of 1D-Array of Aliens, created on all specified location
+     *
      * @author DonLam, Chi-Yuan
      */
     public ArrayList<Alien[]> createAliens(Properties properties, int nbRows, int nbCols) {

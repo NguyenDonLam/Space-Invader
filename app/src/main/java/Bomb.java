@@ -1,14 +1,21 @@
 // Bomb.java
 // Used for SpaceInvader
+/**
+ * The class represents a projectile shot by the spaceship(player) in a
+ * space invader game
+ *
+ * @author DonLam, Chi-Yuan, AndreChiang
+ */
 
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
 public class Bomb extends Actor {
     private static final int TOP_BOUNDARY = 5;
+    private static final String SPRITE_FILE = "sprites/bomb.gif";
 
     public Bomb() {
-        super("sprites/bomb.gif");
+        super(SPRITE_FILE);
     }
 
     public void reset() {
@@ -30,6 +37,8 @@ public class Bomb extends Actor {
      * @param actor1: the first actor that collide with the bomb
      * @param actor2: the second actor that collide with the bomb
      * @return a default integer 0
+     *
+     * @author Chi-Yuan
      */
     @Override
     public int collide(Actor actor1, Actor actor2) {

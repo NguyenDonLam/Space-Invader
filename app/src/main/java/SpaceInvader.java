@@ -2,6 +2,13 @@
 // Sprite images from http://www.cokeandcode.com/tutorials
 // Nice example how the different actor classes: SpaceShip, Bomb, SpaceInvader, Explosion
 // act almost independently of each other. This decoupling simplifies the logic of the application
+/**
+ * The class represents a game of space invader, with a spaceship, and hoards of aliens
+ * moving downward, game lost if spaceship collides with an alien, and game won if either
+ * all aliens are destroyed, or out of frame.
+ *
+ * @author DonLam, Chi-Yuan, AndreChiang
+ */
 
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GGKeyListener;
@@ -36,6 +43,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
 
     /**
      * Create and set up all aliens
+     * @author Chi-Yuan
      */
     private void setupAliens() {
         AlienCreator alienCreator = AlienCreator.getInstance();
@@ -90,6 +98,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
 
     /**
      * Detect game winning conditions
+     * @author DonLam, Chi-Yuan
      */
     @Override
     public void act() {
@@ -123,6 +132,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
 
     /**
      * Increase the speed on the aliens based on the nbShots
+     * @author Chi-Yuan
      */
     public void notifyAliensMoveFast() {
         if (!plus) return;
@@ -136,6 +146,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
      *
      * @param actors : an ArrayList of Actors that collides with the bomb
      * @return whether the alien has actually been hit
+     *
+     * @author Chi-Yuan
      */
     public boolean notifyAlienHit(List<Actor> actors) {
         boolean hasHit = false;
@@ -166,7 +178,9 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
     /**
      * Create an explosion at the designated location
      *
-     * @param location: location for Explosion to be created on
+     * @param location: location for Explosion to be created on.
+     *
+     * @author DonLam
      */
     public void spawnExplosion(Location location) {
         Explosion explosion = new Explosion();
@@ -175,6 +189,7 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
 
     /**
      * Setup spaceship controller
+     * @author Chi-Yuan
      */
     private void setupSpaceShip() {
         // Create a Spaceship Controller to handle all the spaceship controls
@@ -201,6 +216,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
      * @param isGameOver: if the game is over
      * @param win:        if the player wins
      * @param location:   the location of the spaceship
+     *
+     * @author Chi-Yuan
      */
     public void setIsGameOver(boolean isGameOver, boolean win, Location location) {
         this.isGameOver = isGameOver;
@@ -219,6 +236,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
      * Create a new bomb when the spaceship shoots
      *
      * @param location: the location of the spaceship
+     *
+     * @author Chi-Yuan
      */
     public void spawnBomb(Location location) {
         Bomb bomb = new Bomb();
@@ -233,6 +252,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
      * Checks whether there is space on the top-most area of the game
      *
      * @return whether the top area of the game is large enough for spawning
+     *
+     * @author DonLam, Chi-Yuan
      */
     public boolean haveTopSpace() {
         int minY = Integer.MAX_VALUE, topOffset = 15;
@@ -247,7 +268,6 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
 
     /**
      * Spawn a new row of Aliens, on top of the current top-most alien
-     *
      * @author DonLam, Chi-Yuan
      */
     public void generateTopAlienRow() {
@@ -269,6 +289,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
      * Find the top-left-most active alien that are still in the game
      *
      * @return the top-left-most active alien
+     *
+     * @author DonLam
      */
     public Alien findTopLeftMostAlien() {
         int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE;
@@ -297,6 +319,8 @@ public class SpaceInvader extends GameGrid implements GGKeyListener {
      * @param newAlien: the new Alien to be added.
      * @param location: the location in which the new Alien will be added to.
      * @param anchor:   an old Alien, in order for the new Alien to sync with the rest.
+     *
+     * @author DonLam
      */
     public void addAlien(Alien newAlien, Location location, Alien anchor) {
         addActor(newAlien, location);

@@ -1,3 +1,9 @@
+/**
+ * The enum represents the extra 3 alien types within a property file,
+ * for iteration in AlienCreator only.
+ *
+ * @author Chi-Yuan
+ */
 public enum AlienType {
     Powerful("Powerful.locations"),
     Invulnerable("Invulnerable.locations"),
